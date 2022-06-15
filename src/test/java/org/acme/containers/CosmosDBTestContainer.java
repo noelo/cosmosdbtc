@@ -20,10 +20,12 @@ public class CosmosDBTestContainer implements QuarkusTestResourceLifecycleManage
 
     public static CosmosDBEmulatorContainer CosmosDBEmulator = new CosmosDBEmulatorContainer(
             DockerImageName.parse("mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest"));
+            
 
     @Override
     public Map<String, String> start() {
         Log.info("Starting  container.....");
+        CosmosDBEmulator.addEnv("AZURE_COSMOS_EMULATOR_PARTITION_COUNT", "1");
         CosmosDBEmulator.start();
 
         Log.debug("Container Started.....CID=>"+CosmosDBEmulator.getContainerId());
